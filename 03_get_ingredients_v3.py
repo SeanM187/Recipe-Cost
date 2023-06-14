@@ -1,38 +1,53 @@
 import pandas as pd
 
 
-# function to check if the input is 'yes' or 'no'
+# Checks that user has entered yes / no to a question
 def yes_no(question):
     to_check = ["yes", "no"]
-    while True:
+
+    valid = False
+
+    while not valid:
+
         response = input(question).lower()
-        if response in to_check:
-            return response
-        else:
-            print("Please enter either 'yes' or 'no'.\n")
+
+        for var_item in to_check:
+            if response == var_item:
+                return response
+            elif response == var_item[0]:
+                return var_item
+
+        print("Please enter either yes or no...\n")
 
 
-# function to check if the input is a positive number
 def num_check(question, error, num_type):
-    while True:
+    valid = False
+
+    while not valid:
+
         try:
             response = num_type(input(question))
+
             if response <= 0:
-                print(error)
+                print()
             else:
                 return response
+
         except ValueError:
             print(error)
 
 
-# function to check if the input is not blank
+# checks that string response is not blank
 def not_blank(question, error):
-    while True:
+    valid = False
+    while not valid:
         response = input(question)
+
         if response == "":
-            print(error)
-        else:
-            return response
+            print("{}. \nPlease try again\n".format(error))
+            continue
+
+        return response
 
 
 # get recipe name and number of servings
@@ -79,11 +94,11 @@ def get_ingredients():
     return ingredient_frame
 
 
-# call the get_ingredients function and assign the returned DataFrame to a variable
+# get the items to printing
 ingredients_df = get_ingredients()
 
 # printing area
 print(f'-----{recipe_name}-----')
 print(f'Servings: {per_serve}')
-print("\n======Recipe Ingredients======")
+print("\n====== Recipe Ingredients ======")
 print(ingredients_df.to_string(index=False))
