@@ -1,104 +1,82 @@
 import pandas as pd
 
 
-# Checks that user has entered yes / no to a question
+# function to check if the input is 'yes' or 'no'
 def yes_no(question):
     to_check = ["yes", "no"]
-
-    valid = False
-
-    while not valid:
-
+    while True:
         response = input(question).lower()
-
-        for var_item in to_check:
-            if response == var_item:
-                return response
-            elif response == var_item[0]:
-                return var_item
-
-        print("Please enter either yes or no...\n")
+        if response in to_check:
+            return response
+        else:
+            print("Please enter either 'yes' or 'no'.\n")
 
 
+# function to check if the input is a positive number
 def num_check(question, error, num_type):
-    valid = False
-
-    while not valid:
-
+    while True:
         try:
             response = num_type(input(question))
-
             if response <= 0:
-                print()
+                print(error)
             else:
                 return response
-
         except ValueError:
             print(error)
 
 
-# checks that string response is not blank
+# function to check if the input is not blank
 def not_blank(question, error):
-    valid = False
-    while not valid:
+    while True:
         response = input(question)
-
         if response == "":
-            print("{}. \nPlease try again\n".format(error))
-            continue
-
-        return response
+            print(error)
+        else:
+            return response
 
 
 # get recipe name and number of servings
 recipe_name = not_blank("Enter your Recipe Name: ", "Recipe Name can't be blank")
 per_serve = num_check("How many servings? ", "Please enter a number greater than 0.", int)
 
+# get amount, unit, and ingredient
+ingredients = []
+amounts = []
+units = []
 
-def get_ingredients():
-    # get amount, unit, and ingredient
-    ingredients_list = []
-    amounts_list = []
-    units_list = []
+ingredients_dict = {
+    "Amount": amounts,
+    "Unit": units,
+    "Ingredient": ingredients
+}
 
-    ingredients_dict = {
-        "Amount": amounts_list,
-        "Unit": units_list,
-        "Ingredient": ingredients_list
-    }
+print("\nEnter the details for each ingredient (enter 'xxx' to finish):\n")
 
-    while True:
-        ingredient = not_blank("Ingredient Name: ",
-                               "The ingredient name can't be blank.")
-        if ingredient.lower() == "xxx":
-            # check if user entered an ingredient
-            if len(ingredients_list) == 0:
-                print("You cannot enter 'xxx' without entering any ingredients")
-                ingredient = ""
-                continue
-            else:
-                break
+while True:
+    ingredient = not_blank("Ingredient Name: ",
+                           "The item name can't be blank.")
+    if ingredient.lower() == "xxx":
+        # check if user entered an ingredient
+        if len(ingredients) == 0:
+            print("You cannot enter 'xxx' without entering and ingredients")
+            ingredients = ""
+            continue
+        else:
+            break
 
-        amount = num_check("Amount (in grams, milliliters, etc.): ",
-                           "Please enter a number greater than 0.", float)
+    amount = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
+    unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
 
-        unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
+    ingredients.append(ingredient)
+    amounts.append(amount)
+    units.append(unit)
 
-        ingredients_list.append(ingredient)
-        amounts_list.append(amount)
-        units_list.append(unit)
+# Create a DataFrame to display the ingredient details
 
-    # create dataframe to print
-    ingredient_frame = pd.DataFrame(ingredients_dict)
-
-    return ingredient_frame
-
-
-# get the items to printing
-ingredients_df = get_ingredients()
+df = pd.DataFrame(ingredients_dict)
 
 # printing area
 print(f'-----{recipe_name}-----')
 print(f'Servings: {per_serve}')
-print("\n====== Recipe Ingredients ======")
-print(ingredients_df.to_string(index=False))
+print("\n======Recipe Ingredients======")
+print(df.to_string(index=False))
