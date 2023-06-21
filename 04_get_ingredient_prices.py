@@ -47,38 +47,37 @@ def get_ingredient_prices():
     prices_list = []
     amounts_list = []
     units_list = []
-
-    while True:
-        price = num_check("Price: ", "Please enter a number greater than 0.", float)
-        amount = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
-        unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
-
-        stop_input = yes_no("Do you want to stop entering ingredient information? (yes/no): ")
-        if stop_input == "yes":
-            break
-
-        prices_list.append(price)
-        amounts_list.append(amount)
-        units_list.append(unit)
-
-    conversion_factors = {
-        "kg": 1000,
-        "g": 1,
-        "ml": 1
-    }
-
-    cost_to_make = []
-    for price, amount, unit in zip(prices_list, amounts_list, units_list):
-        conversion_factor = conversion_factors.get(unit.lower(), 1)
-        cost = price / (amount * conversion_factor)
-        cost_to_make.append(cost)
+    cost_to_make = []  # <--- created by chatgpt
 
     ingredient_price_dict = {
         "Price": prices_list,
         "Amount": amounts_list,
         "Unit": units_list,
-        "Cost to make": cost_to_make
+        "Cost to make": cost_to_make  # <--- created by chatgpt
     }
+    while True:
+        stop_input = yes_no("Do you want to stop entering ingredient information? (yes/no): ")
+        if stop_input == "yes":
+            break
+
+        price = num_check("Price: ", "Please enter a number greater than 0.", float)
+        amount = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
+        unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
+
+        conversion_factors = {   # <--- created by chatgpt
+            "kg": 1000,
+            "g": 1,
+            "ml": 1
+        }
+        cost_to_make = []   # <--- created by chatgpt
+        for price, amount, unit in zip(prices_list, amounts_list, units_list):
+            conversion_factor = conversion_factors.get(unit.lower(), 1)
+            cost = price / (amount * conversion_factor)
+            cost_to_make.append(cost)
+
+        prices_list.append(price)
+        amounts_list.append(amount)
+        units_list.append(unit)
 
     ingredient_frame = pd.DataFrame(ingredient_price_dict)
     return ingredient_frame
