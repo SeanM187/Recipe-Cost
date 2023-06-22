@@ -47,13 +47,19 @@ def get_ingredient_prices():
     prices_list = []
     amounts_list = []
     units_list = []
-    cost_to_make = []   # <--- created by chatgpt
+    cost_to_make = []
 
     ingredient_price_dict = {
         "Price": prices_list,
         "Amount": amounts_list,
         "Unit": units_list,
-        "Cost to make": cost_to_make   # <--- created by chatgpt
+        "Cost to make": cost_to_make
+    }
+    # calculation depends on what unit user typed
+    conversion_factors = {  # <--- created by chatgpt
+        "kg": 1000,
+        "g": 1,
+        "ml": 1
     }
 
     while True:
@@ -65,17 +71,10 @@ def get_ingredient_prices():
         amount = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
         unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
 
-        conversion_factors = {   # <--- created by chatgpt
-            "kg": 1000,
-            "g": 1,
-            "ml": 1
-        }
-        cost_to_make = []   # <--- created by chatgpt
-        for price, amount, unit in zip(prices_list, amounts_list, units_list):
-            conversion_factor = conversion_factors.get(unit.lower(), 1)
-            cost = price / (amount * conversion_factor)
-            rounded_cost = round(cost, 2)
-            cost_to_make.append(rounded_cost)
+        conversion_factor = conversion_factors.get(unit.lower(), 1)
+        cost = (price / (amount * conversion_factor)) * amount
+        rounded_cost = round(cost, 2)
+        cost_to_make.append(rounded_cost)
 
         prices_list.append(price)
         amounts_list.append(amount)
