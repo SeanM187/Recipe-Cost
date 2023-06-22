@@ -40,7 +40,7 @@ recipe_name = not_blank("Enter your Recipe Name: ", "Recipe Name can't be blank"
 per_serve = num_check("How many servings? ", "Please enter a number greater than 0.", int)
 
 
-def get_ingredients(ingredient_fixed):
+def get_ingredients():
     # get amount, unit, and ingredient
     ingredients_list = []
     amounts_list = []
@@ -54,22 +54,18 @@ def get_ingredients(ingredient_fixed):
     print("\nEnter the details for each ingredient (enter 'xxx' to finish):\n")
 
     # loop to get ingredient details
-    ingredient = ""
-    while ingredient.lower() != "xxx":
+    while True:
         ingredient = not_blank("Ingredient Name: ",
                                "The ingredient name can't be blank.")
         if ingredient.lower() == "xxx":
             # check if user entered an ingredient
             if len(ingredients_list) == 0:
                 print("You cannot enter 'xxx' without entering any ingredients")
-                ingredient = ""
                 continue
             else:
                 break
 
-        if ingredient_fixed == "amount":
-            amounts = num_check("Amount (in grams, milliliters, etc.): ",
-                                "Please enter a number greater than 0.", float)
+        amounts = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
         unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
 
         ingredients_list.append(ingredient)
@@ -83,7 +79,7 @@ def get_ingredients(ingredient_fixed):
 
 
 # call the get_ingredients function and assign the returned DataFrame to a variable
-ingredients_df = get_ingredients("amount")
+ingredients_df = get_ingredients()
 
 # printing area
 print(f'-----{recipe_name}-----')
