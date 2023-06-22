@@ -51,7 +51,7 @@ ingredients_dict = {
 }
 
 print("\nEnter the details for each ingredient (enter 'xxx' to finish):\n")
-
+# loop to get ingredients details
 while True:
     ingredient = not_blank("Ingredient Name: ",
                            "The item name can't be blank.")
@@ -72,7 +72,6 @@ while True:
     units.append(unit)
 
 # Create a DataFrame to display the ingredient details
-
 df = pd.DataFrame(ingredients_dict)
 
 # printing area
