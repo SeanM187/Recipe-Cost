@@ -71,7 +71,7 @@ while True:
     amounts.append(amount)
     units.append(unit)
 
-# Create a DataFrame to display the ingredient details
+# create a dataFrame to display the ingredient details
 df = pd.DataFrame(ingredients_dict)
 
 # printing area
