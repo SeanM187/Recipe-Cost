@@ -51,6 +51,7 @@ def get_ingredients(ingredient_fixed):
         "Unit": units_list,
         "Ingredient": ingredients_list
     }
+    print("\nEnter the details for each ingredient (enter 'xxx' to finish):\n")
 
     # loop to get ingredient details
     ingredient = ""
@@ -67,16 +68,15 @@ def get_ingredients(ingredient_fixed):
                 break
 
         if ingredient_fixed == "amount":
-            amounts = num_check("Amount (in grams, milliliters, etc.): "
-                                , "Please enter a number greater than 0.", float)
-
+            amounts = num_check("Amount (in grams, milliliters, etc.): ",
+                                "Please enter a number greater than 0.", float)
         unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
 
         ingredients_list.append(ingredient)
         amounts_list.append(amounts)
         units_list.append(unit)
 
-    # Create a DataFrame to display the ingredient details
+    # create a dataFrame to display the ingredient details
     ingredient_frame = pd.DataFrame(ingredients_dict)
     ingredient_frame = ingredient_frame.set_index('Ingredient')
     return ingredient_frame
