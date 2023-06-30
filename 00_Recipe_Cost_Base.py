@@ -22,11 +22,19 @@ The data will also be written to a text file which
 def yes_no(question):
     to_check = ["yes", "no"]
 
-    while True:
+    valid = False
+
+    while not valid:
+
         response = input(question).lower()
-        if response in to_check:
-            return response
-        print("Please enter either 'yes' or 'no'.\n")
+
+        for var_item in to_check:
+            if response == var_item:
+                return response
+            elif response == var_item[0]:
+                return var_item
+
+        print("Please enter either yes or no...\n")
 
 
 def num_check(question, error, num_type):
