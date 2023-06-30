@@ -1,15 +1,41 @@
 import pandas as pd
 
 
+def show_instructions():
+    print('''\n
+***** Instructions *****
+This program will ask you for...
+- The name of you Recipe and how many serving
+- Asks for the recipe ingredient details (name, how many, and what unit)
+- Asks for each ingredients prices, how much you bought it for and what unit it is
+
+It will then output an itemised list of the ingredients details 
+with calculated cost to make for each ingredient.
+It will then output the total cost of the recipe and how much per 
+serving it will be.
+
+The data will also be written to a text file which
+ has the same name as your product
+************************''')
+
+
 # Checks that user has entered yes / no to a question
 def yes_no(question):
     to_check = ["yes", "no"]
 
-    while True:
+    valid = False
+
+    while not valid:
+
         response = input(question).lower()
-        if response in to_check:
-            return response
-        print("Please enter either 'yes' or 'no'.\n")
+
+        for var_item in to_check:
+            if response == var_item:
+                return response
+            elif response == var_item[0]:
+                return var_item
+
+        print("Please enter either yes or no...\n")
 
 
 # checks that input is either a float or an
@@ -93,7 +119,7 @@ def get_ingredient_prices(ingredients_data, ingredient_amounts):
     for i, ingredient in enumerate(ingredients_data["Ingredient"]):
         price = num_check(f"Price for {ingredient}: ", "Please enter a number greater than 0.", float)
         amount = num_check(f"Amount for {ingredient}: ", "Please enter a number greater than 0.", float)
-        unit = not_blank(f"Unit of measurement for {ingredient}: ", "The unit of measurement can't be blank.")
+        unit = not_blank(f"Unit of measurement for {ingredient}: ", "The unit of measurement can't be blank.").lower()
 
         prices_list.append(price)
         amounts_list.append(amount)
@@ -108,6 +134,12 @@ def get_ingredient_prices(ingredients_data, ingredient_amounts):
     ingredient_frame = pd.DataFrame(ingredient_price_dict)
     return ingredient_frame, unrounded_cost_total
 
+
+# ask users if they have used this program before...
+want_instructions = yes_no("Have you used this program before?")
+
+if want_instructions == "no":
+    show_instructions()
 
 # get recipe name and number of servings
 recipe_name = not_blank("Enter your Recipe Name: ", "Recipe Name can't be blank")
@@ -124,7 +156,7 @@ total_cost = unrounded_total_cost
 per_serving = total_cost / per_serve
 
 # print recipe information
-print(f'-----{recipe_name}-----')
+print(f'\n-----{recipe_name}-----')
 print(f'Servings: {per_serve}')
 
 # print ingredients
