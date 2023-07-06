@@ -48,7 +48,7 @@ def get_ingredient_prices():
     amounts_list = []
     units_list = []
     cost_to_make = []
-    
+
     ingredient_price_dict = {
         "Price": prices_list,
         "Amount": amounts_list,
@@ -56,7 +56,7 @@ def get_ingredient_prices():
         "Cost to make": cost_to_make
     }
     # calculation depends on  what unit user typed
-    
+
     while True:
         stop_input = yes_no("Do you want to stop entering ingredient information? (yes/no): ")
         if stop_input == "yes":
@@ -66,7 +66,7 @@ def get_ingredient_prices():
         amount = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
         unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
         # main calculation here
-        
+
         prices_list.append(price)
         amounts_list.append(amount)
         units_list.append(unit)
