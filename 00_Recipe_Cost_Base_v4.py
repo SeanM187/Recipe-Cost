@@ -87,7 +87,8 @@ def get_ingredients():
             else:
                 break
 
-        amounts = num_check("Amount (in grams, milliliters, etc.): ", "Please enter a number greater than 0.", float)
+        amounts = num_check("Amount needed for the recipe (in grams, milliliters, etc.): ",
+                            "Please enter a number greater than 0.", float)
         unit = not_blank("Unit of measurement: ", "The unit of measurement can't be blank.")
 
         ingredients_list.append(ingredient)
@@ -98,7 +99,7 @@ def get_ingredients():
     return ingredient_frame
 
 
-# gets the prices and etc...
+# gets each of the ingredients prices, amounts bought, units, and prints the cost to make
 def get_ingredient_prices(ingredients_name, ingredient_amounts):
     prices_list = []
     amounts_list = []
@@ -114,14 +115,16 @@ def get_ingredient_prices(ingredients_name, ingredient_amounts):
     }
 
     conversion_factors = {
-        "kg": 1000,
+        "kg": 1,
         "g": 1,
         "ml": 1
     }
-
+    
+    # gets each of the individual ingredients price, amounts, and units
     for i, ingredient in enumerate(ingredients_name["Ingredient"]):
         price = num_check(f"Price for {ingredient}: $", "Please enter a number greater than 0.", float)
         amount = num_check(f"Amount for {ingredient}: ", "Please enter a number greater than 0.", float)
+        # I decided to make it only accepts kg,g or ml for this function and can be added more units
         while True:
             unit = not_blank(f"Unit of measurement for {ingredient}: ", "The unit of measurement can't be blank.").lower()
             if unit in ["kg", "g", "ml"]:
